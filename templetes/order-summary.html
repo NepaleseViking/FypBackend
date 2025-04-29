@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Order Summary - ElectroniX</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .summary-container {
+      background: white;
+      max-width: 800px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: #008080;
+    }
+
+    .section {
+      margin-bottom: 25px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #eee;
+      padding: 10px 0;
+    }
+
+    .item img {
+      width: 80px;
+      margin-right: 15px;
+    }
+
+    .item-details {
+      flex-grow: 1;
+    }
+
+    button {
+      background: #008080;
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #5d00a2;
+    }
+  </style>
+</head>
+<body>
+  <div class="summary-container">
+    <h2>Order Summary</h2>
+
+    <div class="section">
+      <h3>Billing Details</h3>
+      <p><strong>Name:</strong> <span id="name"></span></p>
+      <p><strong>Email:</strong> <span id="email"></span></p>
+      <p><strong>Phone:</strong> <span id="phone"></span></p>
+      <p><strong>Address:</strong> <span id="address"></span></p>
+    </div>
+
+    <div class="section">
+      <h3>Items</h3>
+      <div id="items-list"></div>
+      <p><strong>Total: $<span id="total"></span></strong></p>
+    </div>
+
+    <form method="POST" action="{% url 'khaltirequest' %}">
+      {% csrf_token %}
+      <input type="hidden" name="name" id="hidden-name">
+      <input type="hidden" name="email" id="hidden-email">
+      <input type="hidden" name="phone" id="hidden-phone">
+      <input type="hidden" name="cart" id="hidden-cart">
+      <input type="hidden" name="total" id="hidden-total">
+      <button type="submit">Pay with Khalti</button>
+    </form>
+  </div>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const billing = JSON.parse(localStorage.getItem('billing')) || {};
+
+    // Fill in billing details
+    document.getElementById('name').textContent = billing.name || '';
+    document.getElementById('email').textContent = billing.email || '';
+    document.getElementById('phone').textContent = billing.phone || '';
+    document.getElementById('address').textContent = billing.address || '';
+
+    // Render items and calculate total
+    const itemsList = document.getElementById('items-list');
+    let total = 0;
+    cart.forEach(item => {
+      const div = document.createElement('div');
+      div.classList.add('item');
+      div.innerHTML = `
+        <img src="${item.img}" alt="${item.name}">
+        <div class="item-details">
+          <strong>${item.name}</strong><br>
+          ${item.description || ''}<br>
+          ${item.color ? 'Color: ' + item.color + '<br>' : ''}
+          ${item.storage ? 'Storage: ' + item.storage + '<br>' : ''}
+        </div>
+        <strong>$${item.price}</strong>
+      `;
+      itemsList.appendChild(div);
+      total += parseFloat(item.price.replace('$', ''));
+    });
+
+    console.log("Calculated total:", total.toFixed(2));  // Print the total in the browser's console
+    document.getElementById('total').textContent = total.toFixed(2);
+
+    // Set hidden input values for form submission
+    document.getElementById('hidden-name').value = billing.name || '';
+    document.getElementById('hidden-email').value = billing.email || '';
+    document.getElementById('hidden-phone').value = billing.phone || '';
+    document.getElementById('hidden-cart').value = JSON.stringify(cart);
+    document.getElementById('hidden-total').value = total.toFixed(2);
+
+    // Debugging: Ensure total is properly set in the hidden input
+    console.log("Hidden total input value:", document.getElementById('hidden-total').value);
+</script>
+</body>
+</html>

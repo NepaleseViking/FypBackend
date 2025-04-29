@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Categories - ElectroniX</title>
+  <link rel="stylesheet" href="styles.css">
+  {% load static %}
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Arial', sans-serif;
+    }
+
+    body {
+      background-color: #f7f7f7;
+      color: #333;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background-color: #008080;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      flex-wrap: wrap;
+    }
+
+    .navbar .logo h1 {
+      color: white;
+      font-size: 24px;
+    }
+
+    .navbar .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .navbar .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s;
+    }
+
+    .navbar .nav-links li a:hover {
+      color: #5d00a2;
+    }
+
+    .navbar .search-bar input {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    /* Categories Section */
+    .categories {
+      padding: 40px 20px;
+      text-align: center;
+      background-color: white;
+      margin-top: 20px;
+      border-radius: 10px;
+    }
+
+    .categories h2 {
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: #008080;
+    }
+
+    /* Filter Section */
+    .filter-section {
+      margin-bottom: 30px;
+    }
+
+    .filter-section label {
+      font-size: 18px;
+      margin-right: 10px;
+    }
+
+    .filter-section select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+    }
+
+    /* Filter Button */
+    .filter-btn {
+      background-color: #008080;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .filter-btn:hover {
+      background-color: #5d00a2;
+    }
+
+    /* Product Cards Container */
+    .product-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive Grid */
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Product Card */
+    .product-card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #f0f0f0;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product-card h4 {
+      font-size: 20px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    .product-card p {
+      font-size: 18px;
+      color: #008080;
+      margin: 10px 0;
+    }
+
+    .product-card .stock-info {
+      font-size: 14px;
+      color: #888;
+      margin-top: 5px;
+    }
+
+    .buy-btn {
+      background-color: #008080;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      margin-top: 15px;
+    }
+
+    .buy-btn:hover {
+      background-color: #5d00a2;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #008080;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+
+      .product-cards {
+        grid-template-columns: 1fr 1fr; /* Two columns on smaller screens */
+      }
+
+      .search-bar {
+        margin-top: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>ElectroniX</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'product' %}">Products</a></li>
+      <li><a href="#">Categories</a></li>
+      <li><a href="{% url 'contact' %}">Contact Us</a></li>
+      <li><a href="{% url 'cart' %}" class="button">Cart</a></li>
+      <li><a href="{% url 'logout' %}" class="button">Logout</a></li>
+      <li><a href="{% url 'profile' %}" class="button">Profile</a></li>
+    </ul>
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search products..." onkeyup="searchProducts()">
+    </div>
+  </nav>
+
+  <!-- Categories Section -->
+  <section class="categories">
+    <h2>Browse by Category</h2>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+      <label for="category-filter">Filter by Category:</label>
+      <select id="category-filter">
+        <option value="all">All</option>
+        <option value="smartphones">Smartphones</option>
+        <option value="accessories">Accessories</option>
+        <option value="chargers">Chargers</option>
+      </select>
+      <button class="filter-btn" onclick="filterProducts()">Filter</button>
+    </div>
+
+    <!-- Product Cards -->
+    <div class="product-cards">
+      {% for product in products %}
+        <div class="product-card category {{ product.category|lower }}">
+          <img src="{{ product.image.url }}" alt="{{ product.name }}">
+          <h4>{{ product.name }}</h4>
+          <p>${{ product.price }}</p>
+          <p>Stock: {{ product.stock }}</p>
+          <a href="{% url 'buy_now' %}?product={{ product.id }}">
+            <button class="buy-btn">Buy Now</button>
+          </a>
+          
+        </div>
+      {% empty %}
+        <p>No products available in this category.</p>
+      {% endfor %}
+    </div> <!-- End of .product-cards -->
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>2025 ElectroniX. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Filtering functionality for categories
+    function filterProducts() {
+      const selectedCategory = document.getElementById('category-filter').value;
+      const allCategories = document.querySelectorAll('.product-card');
+
+      allCategories.forEach(function(category) {
+        if (selectedCategory === 'all') {
+          category.style.display = 'block';
+        } else {
+          if (category.classList.contains(selectedCategory)) {
+            category.style.display = 'block';
+          } else {
+            category.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Search functionality for products in categories
+    function searchProducts() {
+      let searchQuery = document.getElementById('searchInput').value.toLowerCase();
+      let productCards = document.querySelectorAll('.product-card');
+
+      productCards.forEach(card => {
+        let productName = card.querySelector('h4').textContent.toLowerCase();
+        if (productName.includes(searchQuery)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

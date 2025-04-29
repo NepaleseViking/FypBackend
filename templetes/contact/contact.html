@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="contact.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form>
+            <label for="name">Full Name</label>
+            <input type="text" id="name" placeholder="Enter your full name" required>
+
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="Enter your Email" required>
+
+            <label for="message">Your Text</label>
+            <textarea id="message" placeholder="Enter your message" required></textarea><br>
+
+            <button type="submit">Send</button>
+        </form>
+    </div>
+
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: teal;
+            color: #000; /* Black text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Container Styling */
+        .container {
+            width: 90%; /* Responsive width */
+            max-width: 600px; /* Limit container width */
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Heading Styling */
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* Form Styling */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Label Styling */
+        label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #000;
+        }
+
+        /* Input and Textarea Styling */
+        input,
+        textarea {
+            width: 100%; /* Full width of the container */
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Input Focus Style */
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border: 1px solid #006666; /* Slightly darker teal for focus */
+            background-color: #f9f9f9;
+        }
+
+        /* Textarea Specific */
+        textarea {
+            height: 120px;
+            resize: none; /* Allows vertical resizing only */
+
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 20px;
+            }
+            input,
+            textarea {
+                font-size: 14px;
+            }
+        }
+
+        /* Button Styling */
+        button {
+            padding: 10px 20px;
+            background-color: purple;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Button Hover */
+        button:hover {
+            background-color: #301934;
+        }
+    </style>
+</body>
+</html>

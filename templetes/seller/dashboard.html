@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Products - Seller Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    h1, h2 {
+      margin: 0;
+    }
+    h2 {
+      font-size: 1.5em;
+      margin-top: 10px;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    .btn {
+      padding: 10px 20px;
+      margin: 10px 0;
+      text-decoration: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #45a049;
+    }
+    .product-list {
+      list-style-type: none;
+      padding: 0;
+    }
+    .product-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+    .product-item img {
+      margin-right: 20px;
+      border-radius: 5px;
+    }
+    .product-info {
+      flex: 1;
+    }
+    .product-info strong {
+      font-size: 1.2em;
+    }
+    .product-actions a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 1em;
+    }
+    .product-actions a:hover {
+      text-decoration: underline;
+    }
+    .empty-message {
+      text-align: center;
+      font-size: 1.2em;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome, {{ request.user.username }}</h1>
+    <h2>Your Seller Dashboard</h2>
+  </header>
+
+  <div class="container">
+    <a href="{% url 'seller_product_create' %}" class="btn">+ Add New Product</a>
+
+    {% if products %}
+      <ul class="product-list">
+        {% for product in products %}
+          <li class="product-item">
+            {% if product.image %}
+              <img src="{{ product.image.url }}" width="80" alt="{{ product.name }}">
+            {% endif %}
+            <div class="product-info">
+              <strong>{{ product.name }}</strong> - ${{ product.price }}
+            </div>
+            <div class="product-actions">
+              <a href="{% url 'seller_product_update' product.id %}">✏️ Edit</a>
+              <a href="{% url 'seller_product_delete' product.id %}">🗑️ Delete</a>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="empty-message">No products found. Add your first one!</p>
+    {% endif %}
+  </div>
+</body>
+</html>

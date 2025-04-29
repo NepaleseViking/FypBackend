@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Cart - ElectroniX</title>
+  <link rel="stylesheet" href="styles.css">
+  {% load static %}
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      background-color: white;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background-color: #008080;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 30px;
+      align-items: center;
+    }
+
+    .navbar .logo h1 {
+      color: white;
+      font-size: 24px;
+    }
+
+    .navbar .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .navbar .nav-links li a:hover {
+      color: #5d00a2;
+    }
+
+    /* Cart Section */
+    .cart-container {
+      max-width: 1200px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+
+    .cart-items {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .cart-item img {
+      width: 100px;
+      height: auto;
+      margin-right: 20px;
+    }
+
+    .cart-item-details {
+      flex-grow: 1;
+    }
+
+    .remove-btn {
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .remove-btn:hover {
+      background-color: darkred;
+    }
+
+    .cart-summary {
+      margin-top: 30px;
+      text-align: right;
+    }
+
+    .cta-btn {
+      padding: 15px 30px;
+      background-color: #008080;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-btn:hover {
+      background-color: #5d00a2;
+    }
+
+    /* Product Link */
+    .product-link {
+      color: #008080;
+      text-decoration: none;
+    }
+
+    .product-link:hover {
+      color: #5d00a2;
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #008080;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>ElectroniX</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'product' %}">Products</a></li>
+      <li><a href="{% url 'categories' %}">Categories</a></li>
+      <li><a href="{% url 'contact' %}">Contact Us</a></li>
+      <li><a href="{% url 'cart' %}" class="button">Cart</a></li>
+      <li><a href="{% url 'logout' %}" class="button">Logout</a></li>
+      <li><a href="{% url 'profile' %}" class="button">Profile</a></li>
+    </ul>
+  </nav>
+
+  <!-- Cart Section -->
+  <div class="cart-container">
+    <h2>Your Cart</h2>
+    <div class="cart-items">
+      <!-- Cart items will be dynamically inserted here -->
+    </div>
+
+    <div class="cart-summary">
+      <h3>Cart Summary</h3>
+      <p>Total: $0.00</p>
+      <button class="cta-btn" id="checkout-btn">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <footer>
+    <p>2025 ElectroniX. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Display items in the cart
+    function updateCartUI() {
+      const cartContainer = document.querySelector('.cart-items');
+      const checkoutBtn = document.querySelector('#checkout-btn');
+      cartContainer.innerHTML = ''; // Clear existing items
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += parseFloat(item.price.replace('$', ''));
+        const cartItem = document.createElement('div');
+        cartItem.classList.add('cart-item');
+        cartItem.innerHTML = `
+          <img src="${item.img}" alt="${item.name}">
+          <div class="cart-item-details">
+            <h3><a href="/buy/?product=${item.id}" class="product-link">${item.name}</a></h3>
+            <p>${item.color}</p>
+            <p>${item.storage}</p>
+            <p>${item.price}</p>
+            <button class="remove-btn" onclick="removeFromCart(${index})">Remove</button>
+          </div>
+        `;
+        cartContainer.appendChild(cartItem);
+      });
+
+      // Update total price
+      document.querySelector('.cart-summary p').textContent = `Total: $${total.toFixed(2)}`;
+
+      // Enable or disable checkout button
+      checkoutBtn.disabled = cart.length === 0;
+    }
+
+    // Remove item from cart
+    function removeFromCart(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI(); // Refresh UI after removing item
+    }
+
+    // Handle Proceed to Checkout
+    document.querySelector('#checkout-btn').addEventListener('click', function() {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (cart.length > 0) {
+        localStorage.setItem('checkoutCart', JSON.stringify(cart));
+        window.location.href = "{% url 'checkout' %}";
+      }
+    });
+
+    // Load cart on page load
+    document.addEventListener('DOMContentLoaded', updateCartUI);
+  </script>
+
+</body>
+</html>

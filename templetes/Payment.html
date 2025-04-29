@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - Mobile Phones E-Commerce</title>
+  <link rel="stylesheet" href="styles.css">
+  {% load static %}
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>ElectroniX</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="{% url 'product' %}">Products</a></li>
+      <li><a href="{% url 'categories' %}">Categories</a></li>
+      <li><a href="{% url 'contact' %}">Contact Us</a></li>
+      <li><a href="{% url 'cart' %}" class="button">Cart</a></li>
+      <li><a href="{% url 'logout' %}" class="button">Logout</a></li>
+      <li><a href="{% url 'profile' %}" class="button">Profile</a></li>
+    </ul>
+    <div class="search-bar">
+      <input type="text" placeholder="Search products...">
+    </div>
+  </nav>
+
+  <!-- Payment Section -->
+  <section class="payment">
+    <h2>Complete Your Payment</h2>
+
+    <!-- Payment Summary -->
+    <div class="payment-summary">
+      <h3>Order Summary</h3>
+      <ul>
+        {% for item in cart_items %}
+          <li>{{ item.name }} - ${{ item.price }} x {{ item.quantity }}</li>
+        {% endfor %}
+      </ul>
+      <p><strong>Total: ${{ total_price }}</strong></p>
+    </div>
+
+    <!-- Payment Form -->
+    <div class="payment-form">
+      <h3>Enter Payment Details</h3>
+      <form method="POST" action="{}">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="card-name">Cardholder Name</label>
+          <input type="text" id="card-name" name="card_name" placeholder="Enter cardholder name" required>
+        </div>
+        <div class="form-group">
+          <label for="card-number">Card Number</label>
+          <input type="text" id="card-number" name="card_number" placeholder="Enter card number" required>
+        </div>
+        <div class="form-group">
+          <label for="expiration">Expiration Date</label>
+          <input type="month" id="expiration" name="expiration" required>
+        </div>
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input type="text" id="cvv" name="cvv" placeholder="Enter CVV" required>
+        </div>
+        <button type="submit" class="cta-btn">Confirm Payment</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>2025 ElectroniX. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
+
+<style>
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: white;
+}
+
+/* Navigation Bar */
+.navbar {
+  background-color: #008080; /* Teal */
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  align-items: center;
+}
+
+.navbar .logo h1 {
+  color: white;
+  font-size: 24px;
+}
+
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar .nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.navbar .nav-links li a:hover {
+  color: #5d00a2; /* Purple */
+}
+
+.navbar .search-bar input {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Payment Section */
+.payment {
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #f4f4f4;
+}
+
+.payment h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #008080; /* Teal */
+}
+
+.payment-summary {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.payment-summary ul {
+  list-style: none;
+  padding: 0;
+}
+
+.payment-summary li {
+  font-size: 18px;
+  margin: 5px 0;
+}
+
+.payment-summary p {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.payment-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-form h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.payment-form .form-group {
+  margin-bottom: 20px;
+}
+
+.payment-form label {
+  display: block;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.payment-form input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.payment-form button {
+  background-color: #008080; /* Teal */
+  color: white;
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.payment-form button:hover {
+  background-color: #5d00a2; /* Purple */
+}
+
+/* Footer */
+footer {
+  background-color: #008080; /* Teal */
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+</style>

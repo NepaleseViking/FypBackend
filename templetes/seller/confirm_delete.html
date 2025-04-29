@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Delete Product</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 1.8em;
+      margin-top: 20px;
+    }
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .product-name {
+      font-weight: bold;
+      color: #d32f2f;
+    }
+    p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+    button {
+      background-color: #d32f2f;
+      color: white;
+      padding: 12px 20px;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #c62828;
+    }
+    .cancel-link {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #007BFF;
+      font-size: 1.1em;
+    }
+    .cancel-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Delete Product</h1>
+  </header>
+
+  <div class="container">
+    <h2>Delete Confirmation</h2>
+
+    <p>Are you sure you want to delete <span class="product-name">{{ product.name }}</span>?</p>
+
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit">✅ Yes, delete it</button>
+    </form>
+
+    <div class="cancel-link">
+      <a href="{% url 'seller_dashboard' %}">❌ Cancel</a>
+    </div>
+  </div>
+</body>
+</html>

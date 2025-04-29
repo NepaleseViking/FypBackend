@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mobile Phones E-Commerce</title>
+  <link rel="stylesheet" href="styles.css">
+  {% load static %}
+</head>
+<body>
+
+
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>ElectroniX</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="{% url 'product' %}">Products</a></li>
+      <li><a href="{% url 'categories' %}">Categories</a></li>
+      <li><a href="{% url 'contact' %}">Contact Us</a></li>
+      <li><a href="{% url 'cart' %}" class="button">Cart</a></li>
+      <li><a href="{% url 'logout' %}" class="button">Logout</a></li>
+      <li><a href="{% url 'profile' %}" class="button">Profile</a></li>
+    </ul>
+    <div class="search-bar">
+      <input type="text" placeholder="Search products...">
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Find Your Perfect Phone</h2>
+      <p>Explore the latest mobile phones with unbeatable prices!</p>
+      <!-- Shop Now Button (Redirects to Product Page) -->
+      <a href="{% url 'product' %}" class="cta-btn">Shop Now</a>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="categories">
+    <h2>Shop by Category</h2>
+    <div class="category-cards">
+      <div class="category-card">
+        <img src="{% static 'images/smartphone.jpg' %}" alt="Smartphones">
+        <h3>Smartphones</h3>
+      </div>
+      <div class="category-card">
+        <img src="{% static 'images/accessories.jpg' %}" alt="Accessories">
+        <h3>Accessories</h3>
+      </div>
+      <div class="category-card">
+        <img src="{% static 'images/chargers.jpg' %}" alt="Chargers">
+        <h3>Chargers</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Products Section -->
+  <section class="featured-products">
+    <h2>Featured Products</h2>
+    <div class="product-cards">
+      <div class="product-card">
+        <img src="{% static 'images/iphone14pro.jpg' %}" alt="Phone 1">
+        <h3>Iphone 14 pro</h3>
+        <p>$699</p>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="{% static 'images/iPhone16.jpg' %}" alt="Phone 2">
+        <h3>Iphone 16</h3>
+        <p>$799</p>
+        <button class="buy-btn">Buy Now</button>
+      </div>
+      <div class="product-card">
+        <img src="{% static 'images/Samsungs24.jpg' %}" alt="Phone 3">
+        <h3>samsung s24 ultra</h3>
+        <p>$899</p>
+        <button class="buy-btn">Buy Now</button> 
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" required></textarea>
+      <button type="submit" class="cta-btn">Send Message</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p> 2025 ElectroniX. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
+
+<style>
+
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: white;
+}
+
+/* Navigation Bar */
+.navbar {
+  background-color: #008080; /* Teal */
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  align-items: center;
+}
+
+.navbar .logo h1 {
+  color: white;
+  font-size: 24px;
+}
+
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.navbar .nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+.navbar .nav-links li a:hover {
+  color: #5d00a2; /* Purple */
+}
+
+.navbar .search-bar input {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Hero Section */
+.hero {
+  background-color: #5d00a2; /* Purple */
+  color: white;
+  padding: 100px 20px;
+  text-align: center;
+}
+
+.hero h2 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 18px;
+  margin-bottom: 30px;
+}
+
+.hero .cta-btn {
+  background-color: #008080; /* Teal */
+  color: white;
+  padding: 15px 30px;
+  text-decoration: none;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+.hero .cta-btn:hover {
+  background-color: #5d00a2; /* Purple */
+}
+
+/* Categories Section */
+.categories {
+  padding: 40px 20px;
+  text-align: center;
+  background-color: #f4f4f4;
+}
+
+.categories h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #008080; /* Teal */
+}
+
+.category-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.category-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 200px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.category-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.category-card h3 {
+  font-size: 22px;
+  margin-top: 15px;
+}
+
+/* Featured Products Section */
+.featured-products {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.featured-products h2 {
+  font-size: 36px;
+  margin-bottom: 30px;
+  color: #008080; /* Teal */
+}
+
+.product-cards {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.product-card {
+  background-color: #f4f4f4;
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+}
+
+.product-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.product-card h3 {
+  font-size: 22px;
+  margin-top: 15px;
+}
+
+.product-card p {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+.buy-btn {
+  background-color: #5d00a2; /* Purple */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.buy-btn:hover {
+  background-color: #008080; /* Teal */
+}
+
+/* Contact Section */
+.contact {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.contact form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact input, .contact textarea {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.contact textarea {
+  height: 150px;
+}
+
+.contact button {
+  background-color: #008080; /* Teal */
+  color: white;
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 5px;
+  border: none;
+}
+
+.contact button:hover {
+  background-color: #5d00a2; /* Purple */
+}
+
+/* Footer */
+footer {
+  background-color: #008080; /* Teal */
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+</style>
+
+</body>
+</html>

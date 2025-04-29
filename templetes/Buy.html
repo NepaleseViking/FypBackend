@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buy Product - ElectroniX</title>
+  {% load static %}
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    /* Navigation Bar */
+    .navbar {
+      background-color: #008080;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    .navbar h1 {
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .navbar .logo h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    /* Product Details Section */
+    .product-details {
+      display: flex;
+      justify-content: space-between;
+      padding: 50px 30px;
+      margin: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-info {
+      max-width: 500px;
+      padding-left: 30px;
+      color: #333;
+    }
+
+    .product-info h2 {
+      font-size: 32px;
+      margin-bottom: 15px;
+    }
+
+    .product-info p {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .product-price {
+      font-size: 24px;
+      font-weight: bold;
+      color: #008080;
+      margin-bottom: 20px;
+    }
+
+    /* Color Options */
+    .color-options {
+      margin-top: 30px;
+    }
+
+    .color-options h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .colors {
+      display: flex;
+      gap: 12px;
+    }
+
+    .color-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #333;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .color-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      margin-top: 30px;
+    }
+
+    .btn {
+      background-color: #008080;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #5d00a2;
+    }
+
+    /* Recommended Section */
+    .recommended-section {
+      background-color: #f7f7f7;
+      padding: 50px 30px;
+    }
+
+    .recommended-section h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+
+    .recommended-products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .recommended-card {
+      width: 220px;
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .recommended-card:hover {
+      transform: scale(1.05);
+    }
+
+    .recommended-card img {
+      width: 100%;
+      height: auto;
+    }
+
+    .recommended-card h3 {
+      font-size: 16px;
+      margin: 10px 0;
+    }
+
+    .recommended-card .price {
+      font-weight: bold;
+      color: #008080;
+      margin-bottom: 10px;
+    }
+
+    /* Media Queries */
+    @media (max-width: 768px) {
+      .product-details {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .product-image img {
+        width: 80%;
+        margin-bottom: 30px;
+      }
+
+      .product-info {
+        text-align: center;
+      }
+
+      .recommended-products {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .recommended-card {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>ElectroniX</h1>
+    </div>
+  </nav>
+
+  <!-- Product Details Section -->
+  <section class="product-details">
+    <div class="product-image">
+      <img id="product-img" src="{{ product.image.url }}" alt="{{ product.name }}">
+    </div>
+    <div class="product-info">
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+      <p class="product-price">{{ product.price }}</p>
+
+      <!-- Color Options -->
+      <p><strong>Color:</strong> {{ product.colors }}</p>
+
+      <div class="action-buttons">
+        <button class="btn" id="add-to-cart">Add to Cart</button>
+        <button class="btn" id="buy-now">Buy Now</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommended Products Section -->
+  <section class="recommended-section">
+    <h2>Recommended Products</h2>
+    <div class="recommended-products">
+      {% for item in recommendations %}
+        <div class="recommended-card">
+          <a href="{% url 'buy_now' %}?product={{ item.id }}">
+            <img src="{{ item.image.url }}" alt="{{ item.name }}">
+            <h3>{{ item.name }}</h3>
+            <p class="price">{{ item.price }}</p>
+          </a>
+        </div>
+      {% empty %}
+        <p>No recommendations available for this product.</p>
+      {% endfor %}
+    </div>
+  </section>
+
+  <script>
+    // Add to Cart button handler
+    document.getElementById('add-to-cart').addEventListener('click', function() {
+      let product = {
+        id: "{{ product.id }}",
+        name: "{{ product.name }}",
+        price: "{{ product.price }}",
+        img: "{{ product.image.url }}",
+        color: "{{ product.color }}", // Assuming this is dynamically filled
+      };
+
+      // Get the existing cart or initialize an empty array
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(product);
+
+      // Save the updated cart to localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Redirect to the cart page
+      window.location.href = "{% url 'cart' %}";
+    });
+
+    // Buy Now button handler
+    document.getElementById('buy-now').addEventListener('click', function() {
+      let product = {
+        id: "{{ product.id }}",
+        name: "{{ product.name }}",
+        price: "{{ product.price }}",
+        img: "{{ product.image.url }}",
+        color: "{{ product.color }}", // Assuming this is dynamically filled
+        
+      };
+
+      // Add to cart first
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Redirect to checkout page
+      window.location.href = "{% url 'checkout' %}";
+    });
+  </script>
+
+</body>
+</html>

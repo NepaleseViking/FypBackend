@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Checkout - ElectroniX</title>
+  <link rel="stylesheet" href="styles.css">
+  {% load static %}
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>ElectroniX</h1>
+    </div>
+    <ul class="nav-links">
+      <li><a href="{% url 'home' %}">Home</a></li>
+      <li><a href="{% url 'product' %}">Products</a></li>
+      <li><a href="{% url 'categories' %}">Categories</a></li>
+      <li><a href="{% url 'contact' %}">Contact Us</a></li>
+      <li><a href="{% url 'cart' %}" class="button">Cart</a></li>
+    </ul>
+  </nav>
+
+  <!-- Checkout Section -->
+  <section class="checkout">
+    <h2>Checkout</h2>
+
+    <!-- Cart Items Summary -->
+    <div class="cart-summary">
+      <h3>Order Summary</h3>
+      <ul id="cart-summary-list">
+        <!-- Cart items will be inserted here -->
+      </ul>
+      <p><strong>Total: $<span id="total-price"></span></strong></p>
+    </div>
+
+    <!-- Billing Form -->
+    <div class="billing-form">
+      <h3>Billing Information</h3>
+      <form method="POST" action="{% url 'khaltirequest' %}" id="checkout-form">
+        {% csrf_token %}
+        
+        <!-- Render the form fields -->
+        <div class="form-group">
+          <label for="id_ordered_by">Ordered By</label>
+          {{ form.ordered_by }}  <!-- Render the 'ordered_by' field -->
+        </div>
+        
+        <div class="form-group">
+          <label for="id_shipping_address">Shipping Address</label>
+          {{ form.shipping_address }}  <!-- Render the 'shipping_address' field -->
+        </div>
+        
+        <div class="form-group">
+          <label for="id_mobile">Phone Number</label>
+          {{ form.mobile }}  <!-- Render the 'mobile' field -->
+        </div>
+
+        <div class="form-group">
+          <label for="id_email">Email</label>
+          {{ form.email }}  <!-- Render the 'email' field -->
+        </div>
+
+        <div class="form-group">
+          <label for="id_payment_method">Payment Method</label>
+          {{ form.payment_method }}  <!-- Render the 'payment_method' field -->
+        </div>
+
+        <button type="submit" class="cta-btn">Proceed to Payment</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>2025 ElectroniX. All rights reserved.</p>
+  </footer>
+
+  <!-- JavaScript for Checkout -->
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  
+    const cartSummaryList = document.getElementById('cart-summary-list');
+    const totalPrice = document.getElementById('total-price');
+  
+    function updateCartUI() {
+      cartSummaryList.innerHTML = '';
+      let total = 0;
+  
+      if (cart.length > 0) {
+        cart.forEach((item, index) => {
+          const listItem = document.createElement('li');
+          listItem.innerHTML = `
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center;">
+                <img src="${item.img}" alt="${item.name}" width="100" style="margin-right: 15px;">
+                <div style="text-align: left;">
+                  <strong>${item.name}</strong><br>
+                  ${item.description}<br>
+                  ${item.color ? 'Color: ' + item.color + '<br>' : ''}
+                  ${item.storage ? 'Storage: ' + item.storage + '<br>' : ''}
+                  <strong>Price: ${item.price}</strong>
+                </div>
+              </div>
+              <button onclick="removeItem(${index})" style="margin-left: 20px; padding: 10px 15px; background: crimson; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Remove
+              </button>
+            </div>
+          `;
+          cartSummaryList.appendChild(listItem);
+  
+          total += parseFloat(item.price.replace('$', ''));
+        });
+      } else {
+        cartSummaryList.innerHTML = '<li>No products in checkout.</li>';
+      }
+  
+      totalPrice.textContent = total.toFixed(2);
+    }
+  
+    function removeItem(index) {
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartUI();
+    }
+  
+    updateCartUI();
+  </script>
+  do i add this in checkout page:
+  <script>
+    document.getElementById('checkout-form').addEventListener('submit', function (e) {
+      const paymentMethod = document.getElementById('id_payment_method').value;
+  
+      if (paymentMethod === 'Khalti') {
+        e.preventDefault(); // prevent normal form submit
+        window.location.href = '/qr-payment/'; // redirect to your QR page
+      }
+    });
+  </script>
+
+<script>
+  document.getElementById('checkout-form').addEventListener('submit', function (e) {
+    const paymentMethod = document.getElementById('id_payment_method').value;
+
+    if (paymentMethod === 'Khalti') {
+      e.preventDefault();
+
+      // Store billing info temporarily in localStorage
+      const billing = {
+        name: document.getElementById('id_ordered_by').value,
+        address: document.getElementById('id_shipping_address').value,
+        phone: document.getElementById('id_mobile').value,
+        email: document.getElementById('id_email').value,
+        payment: paymentMethod
+      };
+      localStorage.setItem('billing', JSON.stringify(billing));
+
+      // Redirect to summary
+      window.location.href = '/order-summary/';
+    }
+  });
+</script>
+</body>
+</html>
+
+  <!-- Styles -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      color: #333;
+      background-color: white;
+    }
+
+    .navbar {
+      background-color: #008080;
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 30px;
+      align-items: center;
+    }
+
+    .navbar .logo h1 {
+      color: white;
+      font-size: 24px;
+    }
+
+    .navbar .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .navbar .nav-links li a {
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .navbar .nav-links li a:hover {
+      color: #5d00a2;
+    }
+
+    .navbar .search-bar input {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+    }
+
+    .checkout {
+      padding: 40px 20px;
+      text-align: center;
+      background-color: #f4f4f4;
+    }
+
+    .checkout h2 {
+      font-size: 36px;
+      margin-bottom: 30px;
+      color: #008080;
+    }
+
+    .cart-summary {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 30px;
+    }
+
+    .cart-summary ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .cart-summary li {
+      font-size: 18px;
+      margin: 5px 0;
+    }
+
+    .cart-summary p {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .billing-form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .billing-form h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .billing-form .form-group {
+      margin-bottom: 20px;
+    }
+
+    .billing-form label {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .billing-form input,
+    .billing-form textarea,
+    .billing-form select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .billing-form button {
+      background-color: #008080;
+      color: white;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .billing-form button:hover {
+      background-color: #5d00a2;
+    }
+
+    footer {
+      background-color: #008080;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+  </style>
+</body>
+</html>

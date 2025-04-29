@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+  <meta charset="UTF-8">
+  <title>Khalti QR Payment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7f7f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+    h1 {
+      color: #008080;
+    }
+    .qr-container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .qr-container img {
+      width: 300px;
+      height: 300px;
+      margin: 20px 0;
+    }
+    p {
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Scan to Pay with Khalti</h1>
+  <div class="qr-container">
+    <img src="{% static 'images/khalti-qr.png' %}" alt="Khalti QR Code">
+    <p>Please scan the QR code above using your Khalti app to complete the payment.</p>
+  </div>
+</body>
+</html>

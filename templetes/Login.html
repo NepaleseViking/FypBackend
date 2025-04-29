@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Signin/Login</title> 
+	{% load static %}
+</head>
+<body bgcolor="turquoise">
+	<div class="box">
+		<div class="logo">
+			<img src="{% static 'Logo.png' %}" width="60" height="60">
+		</div>
+		<h2 class="topic">Login</h2>
+		<h5 class="sub-topic">Please Login to continue further in the world of ElectroniX</h5><br>
+		<form method="post">
+			{% csrf_token %}
+		    <label for="username" class="fullname">Full Name</label><br>
+		    <input type="text" id="username" name="Full Name" placeholder="Enter your full name" required><br><br>
+		   
+		    <label for="Password" class="Password">Password</label><br>
+		    <input type="text" id="Password" name="Password" placeholder="Enter your Password" required minlength="5"><br><br><br><br>
+		    <a href="CreateAccount"><button class="button-1" onclick="nextpage">Login</button></a>
+		</form>
+		<a href="{% url 'Sign' %}"><button class="button-2" style="color: black;">Register</button></a>
+						
+		
+	</div>
+
+
+
+</body>
+<style>
+*{
+	.box{
+		width: 400px;
+		height: 500px;
+		background-color: #FFFFFF;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		border-radius: 18px;
+		transform: translate(-50%,-50%);
+		
+	}
+
+	.logo{
+		padding-top: 10px;
+		padding-left: 10px;
+
+	}
+
+	.topic {
+	    font-size: 24px;
+	    font-weight: normal;
+	    margin: 0px;
+	    text-align: center;
+
+	}
+
+	.sub-topic {
+	    font-size: 14px;
+	    color: #555;
+	    margin: 0px;
+	    text-align: center;
+	}
+
+	.fullname {
+	    padding-left: 20px;
+	}
+
+	input#username {
+	    border-radius: 6px;
+	    padding: 5px;
+	    width: calc(70% - 40px); /* Adjusting width for padding */
+	    border: 1px solid;
+	    margin-left: 14px;
+	    border-width: 1.5px;
+	    border-color: black;
+	    width: 350px;
+	    height: 20px;
+	}
+	.Email1{
+		padding-left: 20px;
+		
+	}
+
+	input#email{
+		  border-radius: 6px;
+	    padding: 5px;
+	    width: calc(70% - 40px); /* Adjusting width for padding */
+	    border: 1px solid;
+	    margin-left: 14px;
+	    border-width: 1.5px;
+	    border-color: black;
+	    width: 350px;
+	    height: 20px;
+	}
+	.Password{
+		padding-left: 20px;
+	}
+	input#Password{
+		  border-radius: 6px;
+	    padding: 5px;
+	    width: calc(70% - 40px); /* Adjusting width for padding */
+	    border: 1px solid;
+	    margin-left: 14px;
+	    border-width: 1.5px;
+	    border-color: black;
+	    width: 350px;
+	    height: 20px;
+	}
+	.button-1{
+		margin-left: 14px;
+		background-color: rgba(169, 41, 148, 81);
+		border: none;
+		height: 30px;
+		width: 360px;
+		border-radius: 6px;
+		cursor: pointer;
+	}
+	.button-1:active{
+		background-color: rgba(136, 16, 116, 100);
+		transform: translate(0px);
+	}
+	.button-2{
+		margin-left: 14px;
+		border: 1;
+		height: 30px;
+		width: 360px;
+		border-radius: 6px;
+		cursor: pointer;
+		margin-top: 5px;
+	}
+	
+
+}
+</style>
+</html>
