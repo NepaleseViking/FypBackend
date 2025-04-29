@@ -1,0 +1,4 @@
+C:\Users\shres\register\obj\Debug\net8.0\register.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\shres\register\obj\Debug\net8.0\register.AssemblyInfoInputs.cache
+C:\Users\shres\register\obj\Debug\net8.0\register.AssemblyInfo.cs
+C:\Users\shres\register\obj\Debug\net8.0\register.csproj.CoreCompileInputs.cache
